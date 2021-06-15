@@ -54,7 +54,7 @@ def init():
     if data['api_key'] != APP_KEY:
         return 'invalid key'
 
-    text = "Чтобы отправить врачу результаты обследования TyToCare, в приложении TyToCare на телефоне зайдите в раздел обследования и поделитесь с врачем на почту <strong>tyto+{}@medsenger.ru</strong>".format(
+    text = "Чтобы отправить врачу результаты обследования TyToCare, в приложении TyToCare на телефоне зайдите в раздел обследования и поделитесь с врачом на почту <strong>tyto+{}@medsenger.ru</strong>".format(
         data.get('contract_id'))
     medsenger_api.send_message(data.get('contract_id'),
                                only_patient=True,
