@@ -96,26 +96,29 @@ def tasks():
             set_id(last_id)
 
             for message in messages:
-                contract_id = extract_contract_id(message)
+                try:
+                    contract_id = extract_contract_id(message)
 
-                if not contract_id:
-                    continue
-                for part in message.walk():
-                    if part.get_content_type() in ['text/html']:
-                        text = decode_body(part)
-                        code = extract_code(text)
-                        link = extract_link(text)
+                    if not contract_id:
+                        continue
+                    for part in message.walk():
+                        if part.get_content_type() in ['text/html']:
+                            text = decode_body(part)
+                            code = extract_code(text)
+                            link = extract_link(text)
 
-                        if link:
-                            session_id = link.split('/')[-1]
-                            print(session_id)
-                            answer = requests.post("https://app-cloudeu.tytocare.com/tyto/v1/public/visitLinks/{}/codeRequests".format(session_id))
-                            print(answer.status_code)
-                            medsenger_api.send_message(contract_id=contract_id, text="Ссылка на обследование TytoCare: <a target='_blank' href='{}'>Открыть</a>".format(link), only_doctor=True)
-                            medsenger_api.send_message(contract_id=contract_id, text="Результаты осмотра TytoCare отправлены Вашему лечащему врачу. Он свяжется с Вами в течение нескольких часов.".format(link),
-                                                       only_patient=True)
-                        if code:
-                            medsenger_api.send_message(contract_id=contract_id, text="Код доступа для TytoCare: {}".format(code), only_doctor=True)
+                            if link:
+                                session_id = link.split('/')[-1]
+                                print(session_id)
+                                answer = requests.post("https://app-cloudeu.tytocare.com/tyto/v1/public/visitLinks/{}/codeRequests".format(session_id))
+                                print(answer.status_code)
+                                medsenger_api.send_message(contract_id=contract_id, text="Ссылка на обследование TytoCare: <a target='_blank' href='{}'>Открыть</a>".format(link), only_doctor=True)
+                                medsenger_api.send_message(contract_id=contract_id, text="Результаты осмотра TytoCare отправлены Вашему лечащему врачу. Он свяжется с Вами в течение нескольких часов.".format(link),
+                                                           only_patient=True)
+                            if code:
+                                medsenger_api.send_message(contract_id=contract_id, text="Код доступа для TytoCare: {}".format(code), only_doctor=True)
+                except Exception as e:
+                    print(e)
 
 
     except Exception as e:
