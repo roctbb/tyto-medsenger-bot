@@ -1,0 +1,5 @@
+Flask
+requests
+apscheduler
+email
+medsenger-api

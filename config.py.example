@@ -1,0 +1,7 @@
+EMAIL = ''
+PASSWORD = ''
+SERVER = ''
+HOST = '127.0.0.1'
+PORT = '9393'
+MAIN_HOST = "https://medsenger.ru"
+APP_KEY = ""
