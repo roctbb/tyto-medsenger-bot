@@ -61,7 +61,7 @@ def init():
                                text=text)
 
     medsenger_api.add_record(data.get('contract_id'), 'doctor_action',
-                             'Подключен прибор TytoCare')
+                             'Подключен прибор TytoCare.')
 
     return 'ok'
 
@@ -75,7 +75,7 @@ def remove():
         return 'invalid key'
 
     medsenger_api.add_record(data.get('contract_id'), 'doctor_action',
-                             'Отключен прибор TytoCare')
+                             'Отключен прибор TytoCare.')
 
     return 'ok'
 
