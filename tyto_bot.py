@@ -60,6 +60,9 @@ def init():
                                only_patient=True,
                                text=text)
 
+    medsenger_api.add_record(data.get('contract_id'), 'doctor_action',
+                             'Подключен прибор TytoCare')
+
     return 'ok'
 
 
@@ -70,6 +73,10 @@ def remove():
     if data['api_key'] != APP_KEY:
         print('invalid key')
         return 'invalid key'
+
+    medsenger_api.add_record(data.get('contract_id'), 'doctor_action',
+                             'Отключен прибор TytoCare')
+
     return 'ok'
 
 
@@ -113,7 +120,8 @@ def tasks():
                                 answer = requests.post("https://app-cloudeu.tytocare.com/tyto/v1/public/visitLinks/{}/codeRequests".format(session_id))
                                 print(answer.status_code)
                                 medsenger_api.send_message(contract_id=contract_id, text="Ссылка на обследование TytoCare: <a target='_blank' href='{}'>Открыть</a>".format(link), only_doctor=True)
-                                medsenger_api.send_message(contract_id=contract_id, text="Результаты осмотра TytoCare отправлены Вашему лечащему врачу. Он свяжется с Вами в течение нескольких часов.".format(link),
+                                medsenger_api.send_message(contract_id=contract_id,
+                                                           text="Результаты осмотра TytoCare отправлены Вашему лечащему врачу. Он свяжется с Вами в течение нескольких часов.".format(link),
                                                            only_patient=True)
                             if code:
                                 medsenger_api.send_message(contract_id=contract_id, text="Код доступа для TytoCare: {}".format(code), only_doctor=True)
